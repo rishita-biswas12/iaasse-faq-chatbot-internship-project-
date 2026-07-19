@@ -1,0 +1,440 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#152238;
+    --ink-soft:#3d4a68;
+    --paper:#f6f4ee;
+    --panel:#ffffff;
+    --gold:#b98a3f;
+    --gold-soft:#e8d3ab;
+    --teal:#2f6f63;
+    --teal-soft:#e2ede9;
+    --line:#e3ddce;
+    --shadow: 0 1px 2px rgba(21,34,56,0.04), 0 8px 24px rgba(21,34,56,0.06);
+  }
+  *{box-sizing:border-box;}
+  .iaasse-root{
+    font-family:'Inter',sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:16px;
+    max-width:720px;
+    margin:0 auto;
+    overflow:hidden;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+  }
+  .iaasse-header{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:22px 24px;
+    background:linear-gradient(135deg,var(--ink) 0%, #223454 100%);
+    color:#f6f4ee;
+    position:relative;
+  }
+  .iaasse-crest{
+    width:42px;height:42px;border-radius:50%;
+    background:var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .iaasse-crest svg{width:22px;height:22px;}
+  .iaasse-title{font-family:'Fraunces',serif;font-weight:600;font-size:19px;letter-spacing:0.2px;}
+  .iaasse-sub{font-size:12.5px;color:#c9d0e0;margin-top:2px;}
+  .iaasse-status{
+    margin-left:auto;display:flex;align-items:center;gap:6px;
+    font-size:11.5px;color:#c9d0e0;
+  }
+  .iaasse-dot{width:7px;height:7px;border-radius:50%;background:#5fbf8f;box-shadow:0 0 0 3px rgba(95,191,143,0.2);}
+
+  .iaasse-chips{
+    display:flex;gap:8px;padding:14px 20px 4px;flex-wrap:wrap;
+    background:var(--panel);
+    border-bottom:1px solid var(--line);
+  }
+  .iaasse-chip{
+    font-family:'Inter';font-size:12.5px;font-weight:500;
+    padding:7px 13px;border-radius:100px;
+    background:var(--teal-soft);color:var(--teal);
+    border:1px solid transparent;cursor:pointer;
+    transition:all .15s ease;
+  }
+  .iaasse-chip:hover{border-color:var(--teal);}
+
+  .iaasse-body{
+    background:var(--panel);
+    height:420px;overflow-y:auto;
+    padding:20px;
+    display:flex;flex-direction:column;gap:14px;
+  }
+  .iaasse-msg{display:flex;gap:10px;max-width:88%;}
+  .iaasse-msg.user{align-self:flex-end;flex-direction:row-reverse;}
+  .iaasse-avatar{
+    width:26px;height:26px;border-radius:50%;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:700;font-family:'Inter';
+  }
+  .iaasse-avatar.bot{background:var(--gold-soft);color:#8a6423;}
+  .iaasse-avatar.user{background:var(--ink);color:#fff;}
+  .iaasse-bubble{
+    padding:11px 14px;border-radius:14px;font-size:14px;line-height:1.5;
+  }
+  .iaasse-msg.bot .iaasse-bubble{
+    background:#f1efe6;border:1px solid var(--line);border-top-left-radius:4px;
+  }
+  .iaasse-msg.user .iaasse-bubble{
+    background:var(--ink);color:#fff;border-top-right-radius:4px;
+  }
+  .iaasse-tag{
+    display:inline-block;font-size:10px;font-weight:600;letter-spacing:0.4px;
+    text-transform:uppercase;margin-bottom:5px;padding:2px 7px;border-radius:5px;
+  }
+  .iaasse-tag.kb{background:var(--teal-soft);color:var(--teal);}
+  .iaasse-tag.general{background:#f2e6d0;color:#8a6423;}
+
+  .iaasse-typing{display:flex;gap:4px;padding:4px 2px;}
+  .iaasse-typing span{
+    width:6px;height:6px;border-radius:50%;background:#a7a396;
+    animation:iaasse-bounce 1.1s infinite ease-in-out;
+  }
+  .iaasse-typing span:nth-child(2){animation-delay:.15s;}
+  .iaasse-typing span:nth-child(3){animation-delay:.3s;}
+  @keyframes iaasse-bounce{0%,60%,100%{transform:translateY(0);opacity:.5;}30%{transform:translateY(-4px);opacity:1;}}
+
+  .iaasse-inputrow{
+    display:flex;gap:8px;padding:14px;background:var(--panel);
+    border-top:1px solid var(--line);
+  }
+  .iaasse-input{
+    flex:1;border:1px solid var(--line);border-radius:10px;
+    padding:11px 14px;font-family:'Inter';font-size:14px;outline:none;
+    background:var(--paper);color:var(--ink);
+  }
+  .iaasse-input:focus{border-color:var(--teal);}
+  .iaasse-send{
+    background:var(--ink);color:#fff;border:none;border-radius:10px;
+    padding:0 18px;font-family:'Inter';font-weight:600;font-size:13.5px;
+    cursor:pointer;transition:background .15s;
+  }
+  .iaasse-send:hover{background:#223454;}
+  .iaasse-send:disabled{opacity:.5;cursor:default;}
+
+  .iaasse-keyrow{
+    padding:14px 20px;background:var(--teal-soft);border-bottom:1px solid var(--line);
+  }
+  .iaasse-keytext{font-size:12px;color:var(--ink-soft);margin-bottom:8px;line-height:1.5;}
+  .iaasse-keyinputs{display:flex;gap:8px;}
+  .iaasse-keystatus{font-size:12px;margin-top:6px;font-weight:600;}
+  .iaasse-keystatus.ok{color:var(--teal);}
+  .iaasse-keystatus.err{color:#a33d3d;}
+
+  .iaasse-footer{
+    text-align:center;font-size:10.5px;color:#9b9683;padding:8px 0 14px;background:var(--panel);
+  }
+  .iaasse-body::-webkit-scrollbar{width:6px;}
+  .iaasse-body::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px;}
+</style>
+
+<div class="iaasse-root">
+  <div class="iaasse-header">
+    <div class="iaasse-crest">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#152238" stroke-width="2"><path d="M12 2L2 8l10 6 10-6-10-6z"/><path d="M2 8v8l10 6 10-6V8"/></svg>
+    </div>
+    <div>
+      <div class="iaasse-title">IAASSE Member Support</div>
+      <div class="iaasse-sub">Ask about membership, events, and benefits</div>
+    </div>
+    <div class="iaasse-status"><span class="iaasse-dot"></span>Online</div>
+  </div>
+
+  <div class="iaasse-chips" id="chipRow"></div>
+
+  <div class="iaasse-body" id="chatBody"></div>
+
+  <div class="iaasse-inputrow">
+    <input class="iaasse-input" id="chatInput" type="text" placeholder="Type your question..." />
+    <button class="iaasse-send" id="sendBtn">Send</button>
+  </div>
+  <div class="iaasse-footer">Powered by the Claude API · IAASSE AI FAQ Chatbot</div>
+</div>
+
+<script>
+(function(){
+  // ============================================================
+  // EDIT THIS SECTION: replace with your real 50+ IAASSE Q&A pairs.
+  // Format: "Q: ...\nA: ..." one pair per array item.
+  // ============================================================
+  const FAQ_KNOWLEDGE_BASE = `
+Q: What is IAASSE?
+A: IAASSE (International Association of Academicians) is a non-profit international association dedicated to advancing science and engineering by serving both students and professionals through open interchange of information and technology.
+
+Q: When was IAASSE founded?
+A: IAASSE was founded in 2012 to promote research and development, starting as a modest educational awareness initiative before growing into a global academic community.
+
+Q: What membership categories does IAASSE offer?
+A: IAASSE offers two main categories: Professional membership and Student membership, both available annually to individuals who meet the eligibility criteria.
+
+Q: How many members does IAASSE have?
+A: IAASSE has more than 5,000 professional and student members worldwide, spanning disciplines from science and technology to the humanities.
+
+Q: What are the benefits of IAASSE membership?
+A: Benefits include free access to IAASSE's publications and digital library, discounts on journal subscriptions and conference participation, a personalized email forwarding address, networking opportunities, and eligibility for travel grants and awards.
+
+Q: Can I be a Keynote Speaker at IAASSE conferences?
+A: Yes, keynote speaking and session chair or panelist opportunities are available at IAASSE conferences, though keynote speaking is limited to professional member grade.
+
+Q: Does IAASSE offer travel grants or awards?
+A: Yes, eligible members can avail travel grants and awards, and IAASSE periodically opens calls for proposals for awards and fellowships.
+
+Q: Does membership give me access to a digital library?
+A: Yes, members get free access to IAASSE's publications and digital library at no additional cost.
+
+Q: Who are IAASSE's publishing partners?
+A: IAASSE partners with major academic publishers including Elsevier, Springer, Wiley, and IGI Global for open-access publications and conference proceedings.
+
+Q: Does IAASSE have regional chapters?
+A: Yes, IAASSE has chapters across the world, from California to Japan and South Africa to Denmark, giving members local networking and collaboration opportunities. Contact chapters@iaasse.org for more information.
+
+Q: What is IAASSE-USA?
+A: IAASSE-USA is a distinct unit within IAASSE that develops policy recommendations and runs programs specifically serving members, the profession, and the public within the United States.
+
+Q: How is IAASSE led?
+A: Voting members elect a President who serves a three-year term progressing through President-Elect, President and CEO, and then Past President. IAASSE Presidents also sit on the organization's highest governing bodies.
+
+Q: How do I renew my IAASSE membership?
+A: Renewal is completed online through the payment instructions on IAASSE's renewal page, and renewals are offered at discounted rates.
+
+Q: Are there discounts available to IAASSE members?
+A: Yes, members receive discounts and cashback offers, currently up to 75% under promotional offers, on categories including software/hardware, conferences, journals, travel grants, and financial products.
+
+Q: Can students join IAASSE?
+A: Yes, IAASSE offers a Student membership category with access to conferences, mentorship programs, competitions, and academic resources.
+
+Q: What fields does IAASSE cover?
+A: IAASSE draws members from a wide range of disciplines including science, technology, computing, applied sciences, theoretical development, research, management, and the humanities.
+
+Q: Does IAASSE organize conferences?
+A: Yes, conference organization is one of IAASSE's core ongoing activities, alongside journal editing and research paper series publication.
+
+Q: Where are IAASSE conference proceedings published?
+A: Conference proceedings are published in special issues of Scopus-indexed journals and book series from leading publishers like Springer and Elsevier, and are also listed on SSRN's digital library.
+
+Q: What is SoftwareX?
+A: SoftwareX is one of the scientific software journals IAASSE supports, focused on sharing openly available research code alongside published work.
+
+Q: Can my organization host an IAASSE conference?
+A: Yes, IAASSE supports organizers worldwide (USA, Europe, Asia, and beyond) with planning resources, training modules, and expert-led webinars to help host a successful conference. Bids to host conferences are periodically open.
+
+Q: Can my company sponsor or partner with IAASSE?
+A: Yes, IAASSE offers sponsorship and partnership packages ranging from event branding to long-term programmatic support, with visibility across conferences, journals, and digital channels.
+
+Q: Can I contribute to IAASSE's editorial boards?
+A: Yes, professional-grade members can have their name featured on IAASSE's online portal or on the editorial board of its journals, books, or conferences.
+
+Q: Is IAASSE a non-profit organization?
+A: Yes, IAASSE is a non-profit international association.
+
+Q: Where can I find current membership fees?
+A: Exact current fees are listed on the official IAASSE membership pages at iaasse.org, since rates and discount offers are updated periodically.
+
+Q: How do I become a member of IAASSE?
+A: Visit iaasse.org, choose "Join as Professional" or "Join as Student," complete the application form, and submit payment for the applicable membership category.
+
+Q: How do I contact IAASSE?
+A: You can reach IAASSE through the contact details listed on iaasse.org, including chapters@iaasse.org for chapter-related questions.
+
+Q: What awards and fellowships does IAASSE offer?
+A: IAASSE periodically opens calls for proposals for awards and fellowships; nomination requirements are published on the IAASSE awards and fellowships page.
+
+Q: Does IAASSE support early-career researchers?
+A: Yes, students and early-career members get access to mentorship programs, conferences, competitions, and innovation networks designed to support professional growth.
+
+Q: What is the email forwarding benefit?
+A: Members receive a personalized email forwarding address with high-quality spam filtering as part of their membership benefits.
+
+Q: How do I update my contact information on file?
+A: Log in to your IAASSE member account and update your details under your account or profile settings.
+
+Q: I forgot my password to the member portal. What do I do?
+A: Use the "Forgot Password" link on the IAASSE login page to receive a reset link by email. Check your spam folder if it doesn't arrive within a few minutes.
+
+Q: How do I know if my membership application was approved?
+A: You'll typically receive a confirmation email once your application and payment are processed; contact IAASSE support if you haven't heard back within a reasonable time.
+
+Q: Can I cancel my membership?
+A: Membership cancellation and refund policies are outlined on IAASSE's terms pages; contact IAASSE directly for specific cancellation requests.
+
+Q: Can I switch from Student to Professional membership?
+A: Yes, members can typically upgrade their membership category as their eligibility changes; contact IAASSE support to process the change.
+
+Q: Does IAASSE membership expire?
+A: Yes, IAASSE memberships are annual and need to be renewed each year to continue accessing benefits.
+
+Q: How do I submit a paper for an IAASSE conference?
+A: Paper submissions are handled through each conference's specific submission portal, linked from the relevant conference's call-for-papers page.
+
+Q: Are IAASSE conferences held in person or online?
+A: IAASSE conferences are held in various formats and locations worldwide; check the specific conference listing for its format and venue.
+
+Q: Does IAASSE have a code of conduct for members?
+A: Professional associations like IAASSE generally maintain conduct guidelines for conferences and member interactions; check IAASSE's official policies page for specifics.
+
+Q: How can I volunteer with IAASSE?
+A: Members can get involved as conference organizers, committee leaders, or chapter volunteers; reach out via chapters@iaasse.org or the relevant conference organizing page.
+
+Q: What is the difference between a chapter and IAASSE-USA?
+A: Chapters are regional/local member groups (e.g., in Africa, China, Europe, India) for networking, while IAASSE-USA is a policy- and program-focused unit specifically serving U.S. interests.
+
+Q: Can I list my IAASSE membership on my resume or CV?
+A: Yes, professional association membership is commonly listed on a CV; professional-grade members can also reference editorial board or keynote speaker roles if applicable.
+
+Q: Does IAASSE offer any certifications?
+A: Discounts on certifications are listed among IAASSE's member benefits; check the current offers page for specific certification partners.
+
+Q: How do I find upcoming IAASSE conferences?
+A: Upcoming and past conferences are listed on the "Conferences" section of iaasse.org.
+
+Q: Can non-members attend IAASSE conferences?
+A: Conference attendance policies vary by event; check the specific conference page for registration details and whether non-member registration is available.
+
+Q: What is SSRN and how does it relate to IAASSE?
+A: SSRN is a digital library and eJournal platform where IAASSE's conference proceedings are also published, providing broader access to research from IAASSE events.
+
+Q: Does IAASSE support open-access publishing?
+A: Yes, IAASSE supports a range of high-quality open-access publications through its academic publishing partners.
+
+Q: How do I get involved in an IAASSE research chapter?
+A: Reach out to chapters@iaasse.org to learn about chapters active in your region and how to get involved.
+
+Q: Are there networking opportunities beyond conferences?
+A: Yes, IAASSE fosters networking through chapters, committees, editorial board participation, and mentorship programs in addition to conferences.
+
+Q: Who founded IAASSE?
+A: IAASSE was originally founded by P. Om, N. Telcia, and R. Kevin as an educational awareness initiative in 2012.
+
+Q: What should I do if I have a complaint or feedback about IAASSE services?
+A: IAASSE welcomes comments and suggestions; feedback can be submitted through the contact channels listed on iaasse.org.
+`.trim();
+  // ============================================================
+
+  const SYSTEM_PROMPT = `You are the official AI FAQ assistant for IAASSE (a professional member association). Answer member questions warmly, clearly, and concisely (2-4 sentences unless more detail is truly needed).
+
+Use ONLY the knowledge base below as your source of truth for IAASSE-specific facts. If a question is answered by the knowledge base, base your answer on it faithfully. If it is NOT covered by the knowledge base, give a brief, honest, general best-effort answer and suggest the member contact IAASSE support directly for a definitive answer — do not invent specific policies, fees, or dates that aren't in the knowledge base.
+
+KNOWLEDGE BASE:
+${FAQ_KNOWLEDGE_BASE}
+
+After your answer, on a new line, output exactly one machine-readable tag with no other text on that line:
+@@SOURCE:KB@@   if your answer was grounded in the knowledge base above
+@@SOURCE:GENERAL@@   if the knowledge base did not cover this question`;
+
+  const STARTER_CHIPS = ["How do I join?", "Membership fees?", "Reset my password", "Annual conference dates"];
+
+  const chatBody = document.getElementById('chatBody');
+  const chatInput = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('sendBtn');
+  const chipRow = document.getElementById('chipRow');
+
+  let history = [];
+
+  function addMessage(role, text, tag){
+    const wrap = document.createElement('div');
+    wrap.className = 'iaasse-msg ' + (role === 'user' ? 'user' : 'bot');
+    const avatar = document.createElement('div');
+    avatar.className = 'iaasse-avatar ' + (role === 'user' ? 'user' : 'bot');
+    avatar.textContent = role === 'user' ? 'Y' : 'AI';
+    const bubble = document.createElement('div');
+    bubble.className = 'iaasse-bubble';
+    if(tag){
+      const tagEl = document.createElement('div');
+      tagEl.className = 'iaasse-tag ' + (tag === 'KB' ? 'kb' : 'general');
+      tagEl.textContent = tag === 'KB' ? 'From knowledge base' : 'General answer';
+      bubble.appendChild(tagEl);
+    }
+    const textEl = document.createElement('div');
+    textEl.textContent = text;
+    bubble.appendChild(textEl);
+    wrap.appendChild(avatar);
+    wrap.appendChild(bubble);
+    chatBody.appendChild(wrap);
+    chatBody.scrollTop = chatBody.scrollHeight;
+    return wrap;
+  }
+
+  function addTyping(){
+    const wrap = document.createElement('div');
+    wrap.className = 'iaasse-msg bot';
+    wrap.id = 'typingIndicator';
+    wrap.innerHTML = `<div class="iaasse-avatar bot">AI</div><div class="iaasse-bubble"><div class="iaasse-typing"><span></span><span></span><span></span></div></div>`;
+    chatBody.appendChild(wrap);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function removeTyping(){
+    const el = document.getElementById('typingIndicator');
+    if(el) el.remove();
+  }
+
+  async function sendMessage(text){
+    if(!text.trim()) return;
+    addMessage('user', text);
+    history.push({role:'user', content: text});
+    chatInput.value = '';
+    sendBtn.disabled = true;
+    addTyping();
+
+    try{
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-6",
+          max_tokens: 500,
+          system: SYSTEM_PROMPT,
+          messages: history
+        })
+      });
+      const data = await response.json();
+      removeTyping();
+
+      if(data.error){
+        addMessage('bot', "Something's not set up right on the server: " + data.error.message);
+        history.pop();
+        return;
+      }
+
+      let raw = (data.content || []).map(b => b.text || "").join("");
+      let tag = null;
+      if(raw.includes("@@SOURCE:KB@@")){ tag = 'KB'; raw = raw.replace("@@SOURCE:KB@@","").trim(); }
+      else if(raw.includes("@@SOURCE:GENERAL@@")){ tag = 'GENERAL'; raw = raw.replace("@@SOURCE:GENERAL@@","").trim(); }
+
+      if(!raw) raw = "Sorry, I couldn't generate a response just now. Please try again.";
+      addMessage('bot', raw, tag);
+      history.push({role:'assistant', content: raw});
+    }catch(err){
+      removeTyping();
+      addMessage('bot', "Something went wrong reaching the assistant. Please try again in a moment.");
+      console.error(err);
+    }finally{
+      sendBtn.disabled = false;
+      chatInput.focus();
+    }
+  }
+
+  sendBtn.addEventListener('click', () => sendMessage(chatInput.value));
+  chatInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') sendMessage(chatInput.value); });
+
+  STARTER_CHIPS.forEach(c => {
+    const chip = document.createElement('button');
+    chip.className = 'iaasse-chip';
+    chip.textContent = c;
+    chip.addEventListener('click', () => sendMessage(c));
+    chipRow.appendChild(chip);
+  });
+
+  addMessage('bot', "Hi! I'm the IAASSE support assistant. Ask me about membership, events, dues, or anything else — I'll do my best to help, and I'll flag when something isn't in my official knowledge base.");
+})();
+</script>
